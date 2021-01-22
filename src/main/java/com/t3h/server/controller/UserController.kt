@@ -4,9 +4,8 @@ import com.t3h.server.UserManager
 import com.t3h.server.model.request.RegisterRequest
 import com.t3h.server.model.request.RequestLogin
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.websocket.server.PathParam
 
 @RestController
 open class UserController {
@@ -25,5 +24,12 @@ open class UserController {
             @RequestBody request:RequestLogin
     ):  Any{
         return manager.login(request)
+    }
+
+    @GetMapping("/api/friends/{userId}")
+    fun getAllFriend(
+            @PathVariable("userId")userId:Int
+    ):Any{
+        return manager.getAllFriend(userId)
     }
 }

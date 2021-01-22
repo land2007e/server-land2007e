@@ -12,3 +12,5 @@ class CommonResponse{
         this.code = code
     }
 }
+
+
