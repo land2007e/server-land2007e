@@ -2,9 +2,11 @@ package com.t3h.server
 
 import com.t3h.server.model.database.UserProfile
 import com.t3h.server.model.request.RegisterRequest
+import com.t3h.server.model.request.RequestLogin
 import com.t3h.server.model.response.CommonResponse
 import com.t3h.server.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 
@@ -25,8 +27,24 @@ open class UserManager{
         userProfile.firstName=request.firstName
         userProfile.lastName=request.lastName
         userProfile.sex=request.sex
-        userProfile.password=request.password
+        val encode = BCryptPasswordEncoder()
+        userProfile.password=encode.encode(request.password)
         userRepository.save(userProfile)
         return CommonResponse(userProfile)
+    }
+
+    fun login(request: RequestLogin): Any {
+        val user = userRepository.findOnByUsername(
+                request.username
+        )
+        if (user == null){
+            return CommonResponse("username invalid", 1)
+        }
+        val end = BCryptPasswordEncoder()
+
+        if (!end.matches(request.password, user.password)){
+            return CommonResponse("password invalid", 1)
+        }
+        return  return CommonResponse(user)
     }
 }
