@@ -1,6 +1,6 @@
 package com.t3h.server.manager
 
-import com.ddona.demorecycleview.model.MusicOnline
+import com.t3h.server.model.MusicOnline
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Component
 

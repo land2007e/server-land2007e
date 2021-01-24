@@ -1,16 +1,20 @@
 package com.t3h.server.controller
 
-import com.t3h.server.UserManager
+import com.t3h.server.manager.UserManager
 import com.t3h.server.model.request.RegisterRequest
 import com.t3h.server.model.request.RequestLogin
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import javax.websocket.server.PathParam
 
 @RestController
 open class UserController {
+
+    private lateinit var manager: UserManager
     @Autowired
-    private lateinit var manager:UserManager
+    constructor(manager: UserManager) {
+        this.manager = manager
+    }
+
     @PostMapping("/api/register")
     fun register(
             @RequestBody request:RegisterRequest
@@ -19,7 +23,7 @@ open class UserController {
         return manager.register(request)
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/auth/login")
     fun login(
             @RequestBody request:RequestLogin
     ):  Any{

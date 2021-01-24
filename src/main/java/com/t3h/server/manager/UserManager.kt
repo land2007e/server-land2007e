@@ -1,4 +1,4 @@
-package com.t3h.server
+package com.t3h.server.manager
 
 import com.t3h.server.model.database.UserProfile
 import com.t3h.server.model.request.RegisterRequest
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Component
 open class UserManager {
@@ -50,6 +51,7 @@ open class UserManager {
         if (!end.matches(request.password, user.password)) {
             return CommonResponse("password invalid", 1)
         }
+        user.token=getJWT(user)
         return return CommonResponse(user)
     }
 
@@ -59,5 +61,21 @@ open class UserManager {
                         userId
                 )
         )
+    }
+
+    fun getJWT(user:UserProfile):String{
+//        val claims = Jwts.claims()
+//                .setSubject(user.username)
+//        claims.id = user.id.toString()
+//        claims.set("username", user.username)
+//        claims.set("avatar", user.avatar)
+//        claims.set("firstName", user.firstName)
+//        claims.set("lastName", user.lastName)
+//
+//        return Jwts.builder().setClaims(claims)
+//                .signWith( SignatureAlgorithm.HS512, "123a@")
+//                .setExpiration(Date(Date().time + 10*60*1000L))
+//                .compact()
+        return ""
     }
 }

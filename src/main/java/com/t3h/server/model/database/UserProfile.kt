@@ -16,4 +16,7 @@ open class UserProfile{
     var avatar:String?=null
     var sex = "FEMALE"
 
+    @Transient
+    var token = ""
+
 }
