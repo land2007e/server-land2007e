@@ -11,7 +11,7 @@ open class SongController{
     @Autowired
     private lateinit var songManager:SongManager
 
-    @GetMapping("/api/searchSong")
+    @GetMapping("/song/searchSong")
     fun searchSong(
             @RequestParam("songName", required = false) songName:String?,
             @RequestParam("page", required = false, defaultValue = "1")

@@ -15,7 +15,7 @@ open class UserController {
         this.manager = manager
     }
 
-    @PostMapping("/api/register")
+    @PostMapping("/auth/register")
     fun register(
             @RequestBody request:RegisterRequest
     ) : Any{
@@ -30,10 +30,9 @@ open class UserController {
         return manager.login(request)
     }
 
-    @GetMapping("/api/friends/{userId}")
+    @GetMapping("/api/friends")
     fun getAllFriend(
-            @PathVariable("userId")userId:Int
     ):Any{
-        return manager.getAllFriend(userId)
+        return manager.getAllFriend()
     }
 }

@@ -1,11 +1,14 @@
 package com.t3h.server.manager
 
+import com.t3h.server.Utils
 import com.t3h.server.model.database.UserProfile
 import com.t3h.server.model.request.RegisterRequest
 import com.t3h.server.model.request.RequestLogin
 import com.t3h.server.model.response.CommonResponse
 import com.t3h.server.repository.FriendRepository
 import com.t3h.server.repository.UserRepository
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
@@ -55,27 +58,26 @@ open class UserManager {
         return return CommonResponse(user)
     }
 
-    fun getAllFriend(userId: Int): Any {
+    fun getAllFriend(): Any {
         return CommonResponse(
                 friendRepository.findAllFriend(
-                        userId
+                        Utils.getUserLogin()
                 )
         )
     }
 
     fun getJWT(user:UserProfile):String{
-//        val claims = Jwts.claims()
-//                .setSubject(user.username)
-//        claims.id = user.id.toString()
-//        claims.set("username", user.username)
-//        claims.set("avatar", user.avatar)
-//        claims.set("firstName", user.firstName)
-//        claims.set("lastName", user.lastName)
-//
-//        return Jwts.builder().setClaims(claims)
-//                .signWith( SignatureAlgorithm.HS512, "123a@")
-//                .setExpiration(Date(Date().time + 10*60*1000L))
-//                .compact()
-        return ""
+        val claims = Jwts.claims()
+                .setSubject(user.username)
+        claims.id = user.id.toString()
+        claims.set("username", user.username)
+        claims.set("avatar", user.avatar)
+        claims.set("firstName", user.firstName)
+        claims.set("lastName", user.lastName)
+
+        return Jwts.builder().setClaims(claims)
+                .signWith( SignatureAlgorithm.HS512, "123a@")
+                .setExpiration(Date(Date().time + 60*60*1000L))
+                .compact()
     }
 }
